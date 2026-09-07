@@ -1,0 +1,242 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Sun Sep 6 23:29:09 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A136@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STUDENT5                       TABLE
+STUDENT4                       TABLE
+STUDENT3                       TABLE
+STUDENT2                       TABLE
+STUDENT11                      TABLE
+STUDENT1                       TABLE
+STUDENT                        TABLE
+DEPT                           TABLE
+
+8 rows selected.
+
+SQL> create table student01(
+  2  student_id number(5) Primary Key,
+  3  studentname varchar(30),
+  4  department varchar(10),
+  5  marks number(7),
+  6  );
+)
+*
+ERROR at line 6:
+ORA-00904: : invalid identifier
+
+
+SQL> create table student01(
+  2  student_id number(5) Primary Key,
+  3  studentname varchar(30),
+  4  department varchar(10),
+  5  marks number(7)
+  6  );
+
+Table created.
+
+SQL> inser into student values(110,'tango','cse',99);
+SP2-0734: unknown command beginning "inser into..." - rest of line ignored.
+SQL> insert into student values(110,'tango','cse',99);
+insert into student values(110,'tango','cse',99)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into student01 values(110,'tango','cse',99);
+
+1 row created.
+
+SQL> insert into student01 values(111,'mango','cse',89);
+
+1 row created.
+
+SQL> insert into student01 values(112,'pango','cse',79);
+
+1 row created.
+
+SQL> insert into student01 values(113,'lango','cse',88);
+
+1 row created.
+
+SQL> insert into student01 values(113,'dango','cse',92);
+insert into student01 values(113,'dango','cse',92)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A136.SYS_C0033247) violated
+
+
+SQL> insert into student01 values(114,'dango','cse',92);
+
+1 row created.
+
+SQL> insert into student01 values(115,'sango','cse',87);
+
+1 row created.
+
+SQL> select count(*) as total_students
+  2  from student01;
+
+TOTAL_STUDENTS
+--------------
+             6
+
+SQL> ELECT SUM(MARKS) AS TOTAL_MARKS
+SP2-0734: unknown command beginning "ELECT SUM(..." - rest of line ignored.
+SQL> SELECT SUM(MARKS) AS TOTAL_MARKS
+  2  from student01;
+
+TOTAL_MARKS
+-----------
+        534
+
+SQL> SELECT avg(MARKS) AS avg_MARKS
+  2  from student01;
+
+ AVG_MARKS
+----------
+        89
+
+SQL> SELECT max(MARKS) AS highest_rank
+  2  from student01;
+
+HIGHEST_RANK
+------------
+          99
+
+SQL> SELECT min(MARKS) AS lowest_rank
+  2  from student01;
+
+LOWEST_RANK
+-----------
+         79
+
+SQL> select department, avg(marks) as avg
+  2  select department, avg(marks) as avg.
+  3  .
+SQL> select department, avg(marks) as avg_marks
+  2  from student01
+  3  group by department;
+
+DEPARTMENT  AVG_MARKS
+---------- ----------
+cse                89
+
+SQL> select department, count(*) as total_students
+  2  from student01
+  3  group by department;
+
+DEPARTMENT TOTAL_STUDENTS
+---------- --------------
+cse                     6
+
+SQL> select department, max(marks) as max_marks
+  2  from student01
+  3  group by department;
+
+DEPARTMENT  MAX_MARKS
+---------- ----------
+cse                99
+
+SQL> select department, min(marks) as min_marks
+  2  from student01
+  3  group by department;
+
+DEPARTMENT  MIN_MARKS
+---------- ----------
+cse                79
+
+SQL> SELECT avg(MARKS) AS avg_MARKS
+  2  .
+SQL> select department, avg(marks) as avg_marks
+  2  from student01
+  3  group by department
+  4  having avg(marks) > 80;
+
+DEPARTMENT  AVG_MARKS
+---------- ----------
+cse                89
+
+SQL> select department, count(*) as total_students
+  2  from student01
+  3  group by department
+  4  having count(*) > 1;
+
+DEPARTMENT TOTAL_STUDENTS
+---------- --------------
+cse                     6
+
+SQL> select department , count(*) as total students
+  2  avg(marks) as avg_marks
+  3  max(marks) as max_marks
+  4  from student01
+  5  group by department
+  6  having avg(marks) > 80;
+select department , count(*) as total students
+                                      *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select department , count(*) as total_students
+  2  avg(marks) as avg_marks
+  3  max(marks) as max_marks
+  4  from student01
+  5  group by department
+  6  having avg(marks) > 80;
+avg(marks) as avg_marks
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select department , count(*) as total students,
+  2  avg(marks) as avg_marks,
+  3  max(marks) as max_marks,
+  4  from student01
+  5  group by department
+  6  having avg(marks) > 80;
+select department , count(*) as total students,
+                                      *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select department , count(*) as total_students,
+  2  avg(marks) as avg_marks,
+  3  max(marks) as max_marks
+  4  from student01
+  5  group by department
+  6  having avg(marks) > 80;
+
+DEPARTMENT TOTAL_STUDENTS  AVG_MARKS  MAX_MARKS
+---------- -------------- ---------- ----------
+cse                     6         89         99
+
+SQL> select * from student01
+  2  .
+SQL> select * from student01;
+
+STUDENT_ID STUDENTNAME                    DEPARTMENT      MARKS
+---------- ------------------------------ ---------- ----------
+       110 tango                          cse                99
+       111 mango                          cse                89
+       112 pango                          cse                79
+       113 lango                          cse                88
+       114 dango                          cse                92
+       115 sango                          cse                87
+
+6 rows selected.
+
+SQL>
