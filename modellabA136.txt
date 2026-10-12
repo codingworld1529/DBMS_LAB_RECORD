@@ -1,0 +1,273 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Mon Oct 12 11:11:23 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A136@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL> create table customer(
+  2  cust_id number(20),
+  3  cust_name varchar2(20),
+  4  city varchar2(100,
+  5  phone number(10),
+  6  balance number(10)
+  7  );
+city varchar2(100,
+                 *
+ERROR at line 4:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table customer(
+  2  cust_id number(20),
+  3  cust_name varchar2(20),
+  4  city varchar2(10),
+  5  phone number(10),
+  6  balance number(10)
+  7  );
+
+Table created.
+
+SQL> insert into customer values(101,'kala','chennai',9392403756,90000)
+  2  insert into customer values(102,'bala','vellore',9292403757,70000)
+  3  insert into customer values(103,'vani','chennai',9382403757,65000)
+  4  insert into customer values(104,'thala','vellore,9372403757,60000);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into customer values(101,'kala','chennai',9392403756,90000)
+  2  insert into customer values(102,'bala','vellore',9292403757,70000)
+  3  insert into customer values(103,'vani','chennai',9382403757,65000)
+  4  insert into customer values(104,'thala','vellore',9372403757,60000);
+insert into customer values(102,'bala','vellore',9292403757,70000)
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended
+
+
+SQL> insert into customer values(101,'kala','chennai',9392403756,90000);
+
+1 row created.
+
+SQL> insert into customer values(102,'bala','vellore',9292403757,70000);
+
+1 row created.
+
+SQL> insert into customer values(103,'vani','chennai',9382403757,65000);
+
+1 row created.
+
+SQL> insert into customer values(104,'thala','vellore',9372403757,60000);
+
+1 row created.
+
+SQL> update customer set balance = 75000,
+  2  where cust_id = 102;
+where cust_id = 102
+*
+ERROR at line 2:
+ORA-01747: invalid user.table.column, table.column, or column specification
+
+
+SQL> update customer set balance = 75000 where cust_id = 102;
+
+1 row updated.
+
+SQL> select cust_id,balance
+  2  from customer
+  3  where cust_id =102;
+
+   CUST_ID    BALANCE
+---------- ----------
+       102      75000
+
+SQL> delete from customer
+  2  where city ='vellore';
+
+2 rows deleted.
+
+SQL> select city,cust_name
+  2  from customer;
+
+CITY       CUST_NAME
+---------- --------------------
+chennai    kala
+chennai    vani
+
+SQL> alter table customer add email varchar2(500;
+alter table customer add email varchar2(500
+                                          *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> alter table customer add email varchar2(50);
+
+Table altered.
+
+SQL> desc customer
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_ID                                            NUMBER(20)
+ CUST_NAME                                          VARCHAR2(20)
+ CITY                                               VARCHAR2(10)
+ PHONE                                              NUMBER(10)
+ BALANCE                                            NUMBER(10)
+ EMAIL                                              VARCHAR2(50)
+
+SQL> select * from customer
+  2  where city = 'chennai' AND balance > 60000;
+
+   CUST_ID CUST_NAME            CITY            PHONE    BALANCE
+---------- -------------------- ---------- ---------- ----------
+EMAIL
+--------------------------------------------------
+       101 kala                 chennai    9392403756      90000
+
+
+       103 vani                 chennai    9382403757      65000
+
+
+
+SQL> create table branch(
+  2  branch_id number(10) primary key,
+  3  branch_name varchar2(20)
+  4  );
+
+Table created.
+
+SQL> create table account(
+  2  acc
+  3  /.
+  4  /
+/.
+*
+ERROR at line 3:
+ORA-00902: invalid datatype
+
+
+SQL> create table account(
+  2  acc_no number(10) primary key,
+  3  holder_name varchar2(20) not NULL,
+  4  email varchar2(30) unique,
+  5  min_balance number(10) check >100,
+  6  branch_id foreign key reference branch(branch_id)
+  7  );
+min_balance number(10) check >100,
+                             *
+ERROR at line 5:
+ORA-00906: missing left parenthesis
+
+
+SQL> create table account(
+  2  acc_no number(10) primary key,
+  3  holder_name varchar2(20) not NULL,
+  4  email varchar2(30) unique,
+  5  min_balance number(10) check (min_balance >= 1000),
+  6  branch_id foreign key reference branch(branch_id)
+  7  );
+branch_id foreign key reference branch(branch_id)
+                  *
+ERROR at line 6:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table account(
+  2  acc_no number(10) primary key,
+  3  holder_name varchar2(20) not NULL,
+  4  email varchar2(30) unique,
+  5  min_balance number(10) check (min_balance >= 1000),
+  6  branch_id id,
+  7  foreign key(branch_id) reference branch(branch_id)
+  8  );
+foreign key(branch_id) reference branch(branch_id)
+                       *
+ERROR at line 7:
+ORA-00905: missing keyword
+
+
+SQL> create table account(
+  2  acc_no number(10) primary key,
+  3  holder_name varchar2(20) not NULL,
+  4  email varchar2(30) unique,
+  5  min_balance number(10) check (min_balance >= 1000),
+  6  branch_id id,
+  7  foreign key(branch_id) reference branch(branch_id)/
+  8  /
+foreign key(branch_id) reference branch(branch_id)/
+                       *
+ERROR at line 7:
+ORA-00905: missing keyword
+
+
+SQL> create table account(
+  2  acc_no number(10) primary key,
+  3  holder_name varchar2(20) not NULL,
+  4  email varchar2(30) unique,
+  5  min_balance number(10) check (min_balance >= 1000),
+  6  branch_id int,
+  7  foreign key(branch_id) references branch(branch_id)
+  8  );
+
+Table created.
+
+SQL> insert into branch values(112345,'kindergarden');
+
+1 row created.
+
+SQL> insert into branch values(112346,'kindergudddda');
+
+1 row created.
+
+SQL> insert into account values(1123495,'raja','raja@gmail.com',1700,112346);
+
+1 row created.
+
+SQL> desc account
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ACC_NO                                    NOT NULL NUMBER(10)
+ HOLDER_NAME                               NOT NULL VARCHAR2(20)
+ EMAIL                                              VARCHAR2(30)
+ MIN_BALANCE                                        NUMBER(10)
+ BRANCH_ID                                          NUMBER(38)
+
+SQL> insert into account values(1123495,'rnia@gmail.com',1700,112345);
+insert into account values(1123495,'rnia@gmail.com',1700,112345)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into account values(1123495,'','rnia@gmail.com',1700,112345);
+insert into account values(1123495,'','rnia@gmail.com',1700,112345)
+                                   *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("A136"."ACCOUNT"."HOLDER_NAME")
+
+
+SQL> insert into account values(1123495,'geeta','raja@gmail.com',1700,112345);
+insert into account values(1123495,'geeta','raja@gmail.com',1700,112345)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A136.SYS_C0035876) violated
+
+
+SQL> insert into account values(1123495,'geeta','raj@gmail.com',1700,11235);
+insert into account values(1123495,'geeta','raj@gmail.com',1700,11235)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A136.SYS_C0035876) violated
+
+
+SQL> insert into account values(11235,'geta','raj@gmail.com',1700,1235);
+insert into account values(11235,'geta','raj@gmail.com',1700,1235)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (A136.SYS_C0035878) violated - parent key not
+found
